@@ -3,21 +3,18 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import Timer from "./components/Timer";
 
-import { Workout } from "./types";
+import { WorkoutDefinition } from "./types";
 
 export default class App extends React.Component {
   render() {
-    const workout: Workout = {
-      definition: {
-        rounds: 15,
-        minutes: 20
-      },
-      rounds: []
+    const workoutDefinition: WorkoutDefinition = {
+      rounds: 15,
+      minutes: 20
     };
 
     return (
       <View style={styles.container}>
-        <Timer workout={workout} />
+        <Timer workoutDefinition={workoutDefinition} />
       </View>
     );
   }
