@@ -1,8 +1,7 @@
 /* @flow */
 import React from "react";
-import { Workout, WorkoutDefinition } from "../types";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import Coach from "../lib/Coach";
+import TimerContext from "./Context";
 
 const styles = StyleSheet.create({
   numberLabel: {
@@ -21,50 +20,20 @@ const styles = StyleSheet.create({
   }
 });
 
-type TimerPropTypes = {
-  workoutDefinition: WorkoutDefinition
-};
-
-type TimerState = {
-  workout?: Workout
-};
-
-class Timer extends React.Component<TimerPropTypes, TimerState> {
-  constructor(props: TimerPropTypes) {
-    super(props);
-    this.state = {};
-  }
-
-  start() {
-    const definition: WorkoutDefinition = this.props.workoutDefinition;
-    this.setState({
-      workout: Coach.startWorkout(definition)
-    });
-  }
-
-  nextRound() {
-    this.setState({
-      workout: Coach.addRound(this.state.workout)
-    });
-  }
-
+class Timer extends React.Component<any, any> {
   render() {
-    const { workout } = this.state;
-    if (!workout) {
-      return (
-        <View>
-          <TouchableOpacity onPress={this.start.bind(this)}>
-            <Text>Start</Text>
-          </TouchableOpacity>
-        </View>
-      );
-    }
-
     return (
       <View style={styles.layout}>
-        <TouchableOpacity onPress={this.nextRound.bind(this)}>
-          <Text style={styles.numberLabel}>{workout.rounds.length}</Text>
-        </TouchableOpacity>
+        <TimerContext.Consumer>
+          {({ state, nextRound }) => {
+            const { workout } = state;
+            return (
+              <TouchableOpacity onPress={nextRound}>
+                <Text style={styles.numberLabel}>{workout.rounds.length}</Text>
+              </TouchableOpacity>
+            );
+          }}
+        </TimerContext.Consumer>
       </View>
     );
   }

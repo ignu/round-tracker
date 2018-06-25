@@ -1,20 +1,23 @@
 /* flow */
 import React from "react";
 import { StyleSheet, View } from "react-native";
+import Start from "./components/StartScreen";
 import Timer from "./components/Timer";
-
-import { WorkoutDefinition } from "./types";
+import TimerContext, { Provider } from "./components/Context";
 
 export default class App extends React.Component {
   render() {
-    const workoutDefinition: WorkoutDefinition = {
-      rounds: 15,
-      minutes: 20
-    };
-
     return (
       <View style={styles.container}>
-        <Timer workoutDefinition={workoutDefinition} />
+        <Provider>
+          <TimerContext.Consumer>
+            {({ state }) => {
+              if (!state.definition) return <WorkoutDefinition />;
+              if (!state.workout) return <Start />;
+              return <Timer />;
+            }}
+          </TimerContext.Consumer>
+        </Provider>
       </View>
     );
   }
