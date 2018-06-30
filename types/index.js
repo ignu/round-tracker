@@ -1,6 +1,7 @@
+/* @flow */
 export type WorkoutDefinition = {
   minutes: number,
-  goal: number
+  goal: ?number
 };
 
 export type EpochArray = Array<number>;

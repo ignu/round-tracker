@@ -1,6 +1,6 @@
 /* @flow */
 import React from "react";
-import { Workout, WorkoutDefinition } from "../types";
+import type { Workout, WorkoutDefinition } from "../types/index";
 import Coach from "../lib/Coach";
 
 // $FlowFixMe
@@ -8,17 +8,18 @@ const TimerContext = React.createContext();
 export default TimerContext;
 
 type ContextState = {
-  definition?: WorkoutDefinition,
+  definition: WorkoutDefinition,
   workout?: Workout
+};
+
+let defaultDefinition: WorkoutDefinition = {
+  goal: 10,
+  minutes: 20
 };
 
 export class Provider extends React.Component<any, ContextState> {
   state = {
-    definition: {
-      rounds: 12,
-      minutes: 20
-    },
-    workout: null
+    definition: defaultDefinition
   };
   render() {
     return (
@@ -37,6 +38,9 @@ export class Provider extends React.Component<any, ContextState> {
           },
 
           nextRound: () => {
+            if (!this.state.workout) {
+              throw new Error("Can not advance rounds if workout is not set");
+            }
             this.setState({
               workout: Coach.addRound(this.state.workout)
             });

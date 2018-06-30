@@ -2,6 +2,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import TimerContext from "./Context";
+import Coach from "../lib/Coach";
 
 const styles = StyleSheet.create({
   numberLabel: {
@@ -27,9 +28,12 @@ class Timer extends React.Component<any, any> {
         <TimerContext.Consumer>
           {({ state, nextRound }) => {
             const { workout } = state;
+            const goal = Coach.roundGoal(workout);
+            console.log({ goal });
             return (
               <TouchableOpacity onPress={nextRound}>
                 <Text style={styles.numberLabel}>{workout.rounds.length}</Text>
+                <Text style={styles.numberLabel}>{goal}</Text>
               </TouchableOpacity>
             );
           }}

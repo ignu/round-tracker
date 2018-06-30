@@ -10,7 +10,7 @@ export default class StartScreen extends React.Component {
           {({ start }) => {
             return (
               <TouchableOpacity onPress={start}>
-                <Text>Start</Text>
+                <Text style={{ fontSize: 120 }}>Start</Text>
               </TouchableOpacity>
             );
           }}
