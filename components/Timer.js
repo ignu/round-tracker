@@ -6,7 +6,6 @@ import Coach from "../lib/Coach";
 
 const styles = StyleSheet.create({
   numberLabel: {
-    fontSize: 90,
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
@@ -21,6 +20,11 @@ const styles = StyleSheet.create({
   }
 });
 
+const NumberCounter = ({ rounds }) => {
+  const fontSize = rounds > 99 ? 110 : 170;
+  return <Text style={[styles.numberLabel, { fontSize }]}>{rounds}</Text>;
+};
+
 class Timer extends React.Component<any, any> {
   render() {
     return (
@@ -29,12 +33,15 @@ class Timer extends React.Component<any, any> {
           {({ state, nextRound }) => {
             const { workout } = state;
             const goal = Coach.roundGoal(workout);
-            console.log({ goal });
+            const average = Coach.averageRound(workout);
             return (
-              <TouchableOpacity onPress={nextRound}>
-                <Text style={styles.numberLabel}>{workout.rounds.length}</Text>
-                <Text style={styles.numberLabel}>{goal}</Text>
-              </TouchableOpacity>
+              <View>
+                <TouchableOpacity onPress={nextRound}>
+                  <NumberCounter rounds={workout.rounds.length} />
+                  {/* <Text style={styles.numberLabel}>{goal}</Text>
+                  <Text style={styles.numberLabel}>{average}</Text> */}
+                </TouchableOpacity>
+              </View>
             );
           }}
         </TimerContext.Consumer>
