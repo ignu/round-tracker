@@ -12,7 +12,7 @@ export default class App extends React.Component {
         <Provider>
           <TimerContext.Consumer>
             {({ state }) => {
-              if (!state.definition) return <WorkoutDefinition />;
+              // if (!state.definition) return <WorkoutDefinition />;
               if (!state.workout) return <Start />;
               return <Timer />;
             }}
