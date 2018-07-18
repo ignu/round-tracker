@@ -1,10 +1,21 @@
 /* @flow */
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+
+import { Fragment } from "react";
+import {
+  View,
+  Dimensions,
+  Text,
+  TouchableOpacity,
+  StyleSheet
+} from "react-native";
 import TimerContext from "./Context";
+import Slider from "./Slider";
 import Coach from "../lib/Coach";
 import type { Workout } from "../types/index";
 
+const deviceHeight = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get("window").height;
 const secondLabel = (seconds: number) => {
   if (seconds > 9) return seconds.toString();
 
@@ -68,22 +79,39 @@ class Timer extends React.Component<any, any> {
             const goal = Coach.roundGoal(workout);
             const average = Coach.averageRound(workout);
             return (
-              <View style={styles.flex}>
-                <View style={[styles.flex, { flex: 3 }]}>
-                  <TouchableOpacity onPress={nextRound}>
-                    <NumberCounter rounds={workout.rounds.length} />
-                  </TouchableOpacity>
-                </View>
+              <Fragment>
+                {goal && <Slider duration={goal} />}
 
-                <View style={{ flex: 1 }}>
-                  {goal && <GoalLabel goal={goal} workout={workout} />}
-                  {average && (
-                    <Text style={styles.numberLabel}>
-                      Average: {timeLabel(average)}
-                    </Text>
-                  )}
+                <View
+                  style={[
+                    {
+                      zIndex: 100,
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      height: deviceHeight,
+                      width: deviceWidth
+                    }
+                  ]}
+                >
+                  <View style={[styles.flex]}>
+                    <View style={[styles.flex, { flex: 3 }]}>
+                      <TouchableOpacity onPress={nextRound}>
+                        <NumberCounter rounds={workout.rounds.length} />
+                      </TouchableOpacity>
+                    </View>
+
+                    <View style={{ flex: 1 }}>
+                      {goal && <GoalLabel goal={goal} workout={workout} />}
+                      {average && (
+                        <Text style={styles.numberLabel}>
+                          Average: {timeLabel(average)}
+                        </Text>
+                      )}
+                    </View>
+                  </View>
                 </View>
-              </View>
+              </Fragment>
             );
           }}
         </TimerContext.Consumer>
