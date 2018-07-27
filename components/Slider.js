@@ -1,3 +1,4 @@
+/* @flow */
 import React from "react";
 import { Animated, Dimensions, View } from "react-native";
 
@@ -11,7 +12,7 @@ type SliderProps = {
 };
 class Slider extends React.Component<SliderProps, any> {
   height: any;
-  constructor(props) {
+  constructor(props: SliderProps) {
     super(props);
     this.state = {
       backgroundColor: GREEN
