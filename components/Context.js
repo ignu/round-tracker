@@ -8,7 +8,7 @@ const TimerContext = React.createContext();
 export default TimerContext;
 
 type ContextState = {
-  definition: WorkoutDefinition,
+  definition?: WorkoutDefinition,
   workout?: Workout
 };
 
@@ -19,7 +19,6 @@ let defaultDefinition: WorkoutDefinition = {
 
 export class Provider extends React.Component<any, ContextState> {
   state = {
-    definition: defaultDefinition
   };
   render() {
     return (

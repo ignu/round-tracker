@@ -15,7 +15,7 @@ import Coach from "../lib/Coach";
 import type { Workout } from "../types/index";
 
 const deviceHeight = Dimensions.get("window").height;
-const deviceWidth = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get("window").width;
 const secondLabel = (seconds: number) => {
   if (seconds > 9) return seconds.toString();
 
