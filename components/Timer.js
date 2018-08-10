@@ -12,7 +12,7 @@ import {
 import TimerContext from "./Context";
 import Slider from "./Slider";
 import Coach from "../lib/Coach";
-import type { Workout } from "../types/index";
+import { Workout } from "../types/index";
 
 const deviceHeight = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
@@ -21,7 +21,7 @@ const secondLabel = (seconds: number) => {
 
   return `0${seconds}`;
 };
-
+const TRANSPARENT = "rgba(0, 0, 0, 0)";
 const timeLabel = (seconds: number) => {
   seconds = Math.floor(seconds);
   if (seconds < 60) {
@@ -38,7 +38,6 @@ const styles = StyleSheet.create({
   numberLabel: {
     flex: 1,
     fontSize: 20,
-    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center"
   },
@@ -71,6 +70,15 @@ const GoalLabel = ({ goal, workout }: { goal: number, workout: Workout }) => {
 
 class Timer extends React.Component<any, any> {
   render() {
+    const numberViewStyle = {
+      backgroundColor: TRANSPARENT,
+      width: deviceWidth,
+      top: 100,
+      flex: 1,
+      alignItems: "center",
+      position: "absolute",
+      zIndex: 2
+    };
     return (
       <View style={styles.layout}>
         <TimerContext.Consumer>
@@ -83,32 +91,42 @@ class Timer extends React.Component<any, any> {
                 <View
                   style={[
                     {
+                      position: "absolute",
                       height: deviceHeight,
                       width: deviceWidth
                     }
                   ]}
                 >
-                  <View style={[styles.flex]}>
-                    <View style={[styles.flex, { flex: 3 }]}>
-                      <TouchableOpacity onPress={nextRound}>
-                        <NumberCounter rounds={workout.rounds.length} />
-                      </TouchableOpacity>
-                    </View>
+                  <View style={numberViewStyle}>
+                    <TouchableOpacity onPress={nextRound}>
+                      <NumberCounter rounds={workout.rounds.length} />
+                    </TouchableOpacity>
+                  </View>
 
-                    <View style={{ flex: 1 }}>
-                      {goal && <GoalLabel goal={goal} workout={workout} />}
-                      {average && (
-                        <Text style={styles.numberLabel}>
-                          Average: {timeLabel(average)}
-                        </Text>
-                      )}
-                    </View>
+                  {goal && (
+                    <Slider duration={goal} round={workout.rounds.length} />
+                  )}
+
+                  <View
+                    style={{
+                      position: "absolute",
+                      zIndex: 2,
+                      top: deviceHeight - 90,
+                      left: 0,
+                      flex: 1,
+                      alignItems: "center",
+                      backgroundColor: TRANSPARENT,
+                      width: deviceWidth
+                    }}
+                  >
+                    {goal && <GoalLabel goal={goal} workout={workout} />}
+                    {average && (
+                      <Text style={styles.numberLabel}>
+                        Average: {timeLabel(average)}
+                      </Text>
+                    )}
                   </View>
                 </View>
-
-                {goal && (
-                  <Slider duration={goal} round={workout.rounds.length} />
-                )}
               </Fragment>
             );
           }}

@@ -60,7 +60,7 @@ class Slider extends React.Component<SliderProps, any> {
 
   render() {
     const sliderStyle = {
-      zIndex: 1,
+      zIndex: 0,
       position: "absolute",
       height: this.height,
       top: 0,
