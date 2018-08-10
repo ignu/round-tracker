@@ -27,9 +27,14 @@ class Slider extends React.Component<SliderProps, any> {
   }
 
   overdue() {
-    this.setState({
-      backgroundColor: RED
-    });
+    const round = this.props.round;
+    return () => {
+      if (round != this.props.round) return;
+
+      this.setState({
+        backgroundColor: RED
+      });
+    };
   }
 
   componentDidUpdate(otherProps: any, otherState: any) {
@@ -41,11 +46,12 @@ class Slider extends React.Component<SliderProps, any> {
   startAnimation() {
     this.state.animation && this.state.animation.stop();
     this.height = new Animated.Value(1);
+    this.setState({ backgroundColor: GREEN });
 
     const animation = Animated.timing(this.height, {
       toValue: deviceHeight,
       duration: this.props.duration * 1000
-    }).start(this.overdue.bind(this));
+    }).start(this.overdue().bind(this));
 
     this.setState({
       animation
