@@ -10,17 +10,19 @@ const deviceHeight = Dimensions.get("window").height;
 type SliderProps = {
   duration: number
 };
+
 class Slider extends React.Component<SliderProps, any> {
   height: any;
+
   constructor(props: SliderProps) {
     super(props);
     this.state = {
       backgroundColor: GREEN
     };
+    this.height = new Animated.Value(1);
   }
 
   componentDidMount() {
-    this.height = new Animated.Value(1);
     this.startAnimation();
   }
 
@@ -30,11 +32,24 @@ class Slider extends React.Component<SliderProps, any> {
     });
   }
 
+  componentDidUpdate(otherProps: any, otherState: any) {
+    if (otherProps.round != this.props.round) {
+      this.startAnimation();
+    }
+  }
+
   startAnimation() {
-    Animated.timing(this.height, {
+    this.state.animation && this.state.animation.stop();
+    this.height = new Animated.Value(1);
+
+    const animation = Animated.timing(this.height, {
       toValue: deviceHeight,
       duration: this.props.duration * 1000
     }).start(this.overdue.bind(this));
+
+    this.setState({
+      animation
+    });
   }
 
   render() {
@@ -47,6 +62,7 @@ class Slider extends React.Component<SliderProps, any> {
       backgroundColor: this.state.backgroundColor
     };
 
+    console.log(sliderStyle);
     return <Animated.View ref="progress" style={sliderStyle} />;
   }
 }

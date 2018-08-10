@@ -80,15 +80,9 @@ class Timer extends React.Component<any, any> {
             const average = Coach.averageRound(workout);
             return (
               <Fragment>
-                {goal && <Slider duration={goal} />}
-
                 <View
                   style={[
                     {
-                      zIndex: 100,
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
                       height: deviceHeight,
                       width: deviceWidth
                     }
@@ -111,6 +105,10 @@ class Timer extends React.Component<any, any> {
                     </View>
                   </View>
                 </View>
+
+                {goal && (
+                  <Slider duration={goal} round={workout.rounds.length} />
+                )}
               </Fragment>
             );
           }}

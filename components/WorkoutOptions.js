@@ -17,12 +17,10 @@ class WorkoutOptions extends React.Component {
       <TimerContext.Consumer>
         {({ state, createDefinition, ready }) => {
           const updateRounds = rounds => {
-            console.log("rounds", rounds);
             createDefinition(state.definition.minutes, rounds);
           };
 
           const updateMinutes = minutes => {
-            console.log("minutes", rounds);
             createDefinition(minutes, state.definition.rounds);
           };
           console.log("rendering...", state);
