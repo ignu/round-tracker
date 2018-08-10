@@ -8,6 +8,7 @@ const TimerContext = React.createContext();
 export default TimerContext;
 
 type ContextState = {
+  ready: boolean,
   definition?: WorkoutDefinition,
   workout?: Workout
 };
@@ -19,12 +20,22 @@ let defaultDefinition: WorkoutDefinition = {
 
 export class Provider extends React.Component<any, ContextState> {
   state = {
+    ready: false,
+    definition: {
+      minutes: 20
+    }
   };
   render() {
     return (
       <TimerContext.Provider
         value={{
           state: this.state,
+          ready: () => {
+            console.log("GETTING READY");
+            this.setState({
+              ready: true
+            });
+          },
           start: () => {
             this.setState({
               workout: Coach.startWorkout(this.state.definition)
